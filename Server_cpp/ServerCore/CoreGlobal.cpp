@@ -3,12 +3,16 @@
 
 ThreadManager* GThreadManager = nullptr;
 
-CoreGlobal::CoreGlobal()
+class CoreGlobal
 {
-	GThreadManager = new ThreadManager();
-}
+public:
+	CoreGlobal()
+	{
+		GThreadManager = new ThreadManager();
+	}
 
-CoreGlobal::~CoreGlobal()
-{
-	delete GThreadManager;
-}
+	~CoreGlobal()
+	{
+		delete GThreadManager;
+	}
+} GCoreGrobal;
