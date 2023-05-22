@@ -4,9 +4,9 @@
 
 #define USE_MANY_LOCKS(count) Lock mLocks[count];
 #define USE_LOCK			USE_MANY_LOCKS(1)
-#define READ_LOCK_IDX(idx)	ReadLockGuard readLockGuard_##idx(mLocks[idx]);
+#define READ_LOCK_IDX(idx)	ReadLockGuard readLockGuard_##idx(mLocks[idx], typeid(this).name());
 #define READ_LOCK			READ_LOCK_IDX(0)
-#define WRITE_LOCK_IDX(idx)	WriteLockGuard readLockGuard_##idx(mLocks[idx]);
+#define WRITE_LOCK_IDX(idx)	WriteLockGuard readLockGuard_##idx(mLocks[idx], typeid(this).name());
 #define WRITE_LOCK			WRITE_LOCK_IDX(0)
 
 #define CRASH(cause)						\

@@ -17,9 +17,9 @@ private:
 
 	Mutex	mLock;
 private:
-	vector<int32>					mDiscoveredOrder;
-	int32							mDiscoveredCount = 0;
-	vector<bool>					mFinished;
+	vector<int32>					mDiscoveredOrder;		// 노드가 발견된 순서를 기록하는 배열
+	int32							mDiscoveredCount = 0;	// 노드가 발견된 순서
+	vector<bool>					mFinished;				// Dfs(i)가 종료 되었는지 여부
 	vector<int32>					mParent;
 };
 

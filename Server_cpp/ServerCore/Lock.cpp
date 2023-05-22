@@ -1,9 +1,14 @@
 #include "pch.h"
 #include "Lock.h"
 #include "CoreTLS.cpp"
+#include "DeadLockProfiler.h"
 
-void Lock::WriteLock()
+void Lock::WriteLock(const string name)
 {
+#if _DEBUG
+	GDeadLockProfiler->PushLock(name);
+#endif // _DEBUG
+
 	// 동일한 쓰레드가 소유하고 있다면 무조건 성공한다.
 	const uint32 lockThreadId = (mLockFlag.load() & WRITE_THREAD_MASK) >> 16;
 	if (LThreadId == lockThreadId)
@@ -31,8 +36,12 @@ void Lock::WriteLock()
 	}
 }
 
-void Lock::WriteUnlock()
+void Lock::WriteUnlock(const string name)
 {
+#if _DEBUG
+	GDeadLockProfiler->PopLock(name);
+#endif // _DEBUG
+
 	// ReadLock 다풀기 전에는 WriteLock 불가능
 	if ((mLockFlag.load() & READ_COUNT_MASK) != 0)
 		CRASH("INVALID_UNLOCK_ORDER");
@@ -42,8 +51,11 @@ void Lock::WriteUnlock()
 		mLockFlag.store(EMPTY_FLAG);
 }
 
-void Lock::ReadLock()
+void Lock::ReadLock(const string name)
 {
+#if _DEBUG
+	GDeadLockProfiler->PushLock(name);
+#endif // _DEBUG
 	// 동일한 쓰레드가 소유하고 있다면 무조건 성공
 	const uint32 lockThreadId = (mLockFlag.load() & WRITE_THREAD_MASK) >> 16;
 	if (LThreadId == lockThreadId)
@@ -69,8 +81,11 @@ void Lock::ReadLock()
 	}
 }
 
-void Lock::ReadUnlock()
+void Lock::ReadUnlock(const string name)
 {
+#if _DEBUG
+	GDeadLockProfiler->PopLock(name);
+#endif // _DEBUG
 	if ((mLockFlag.fetch_sub(1) & READ_COUNT_MASK) == 0)
 		CRASH("MULTIPLE_UNLOCK");
 }
