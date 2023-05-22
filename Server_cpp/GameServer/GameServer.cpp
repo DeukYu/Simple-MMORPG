@@ -18,7 +18,6 @@ public:
 	void TestPush()
 	{
 		WRITE_LOCK;
-
 		mQueue.push(rand() % 100);
 	}
 	void TestPop()
@@ -38,7 +37,7 @@ void ThreadWrite()
 	while (true)
 	{
 		testLock.TestPush();
-		this_thread::sleep_for(1ms);
+		this_thread::sleep_for(10ms);
 		testLock.TestPop();
 	}
 	
@@ -50,7 +49,7 @@ void ThreadRead()
 	{
 		int32 value = testLock.TestRead();
 		cout << value << endl;
-		this_thread::sleep_for(1ms);
+		this_thread::sleep_for(100ms);
 	}
 }
 

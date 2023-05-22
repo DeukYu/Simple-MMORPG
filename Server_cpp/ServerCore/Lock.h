@@ -21,7 +21,7 @@ public:
 	void ReadUnlock();
 
 private:
-	Atomic<uint32> mLockFlag;
+	Atomic<uint32> mLockFlag = EMPTY_FLAG;
 	uint16 mWriteCount = 0;
 };
 
