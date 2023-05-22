@@ -12,7 +12,7 @@ private:
 private:
 	unordered_map<string, int32>	mNameToId;
 	unordered_map<int32, string>	mIdToName;
-	stack<int32>					mLockState;
+	stack<int32>					mLockStack;
 	map<int32, set<int32>>			mLockHistory;
 
 	Mutex	mLock;
