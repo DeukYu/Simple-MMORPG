@@ -1,16 +1,15 @@
 #include "pch.h"
 #include "DeadLockProfiler.h"
 
-void DeadLockProfiler::PushLock(string name)
+void DeadLockProfiler::PushLock(const string_view& name)
 {
 	LockGuard	guard(mLock);
 
 	int32 lockId = 0;
-	auto findIt = mNameToId.find(name);
-	if (findIt == mNameToId.end())
+	if(auto findIt = mNameToId.find(name.data()); findIt == mNameToId.end())
 	{
 		lockId = static_cast<int32>(mNameToId.size());
-		mNameToId[name] = lockId;
+		mNameToId[name.data()] = lockId;
 		mIdToName[lockId] = name;
 	}
 	else
@@ -18,8 +17,7 @@ void DeadLockProfiler::PushLock(string name)
 
 	if (mLockStack.empty() == false)
 	{
-		const int32 prevId = mLockStack.top();
-		if (lockId != prevId)
+		if (const int32 prevId = mLockStack.top(); lockId != prevId)
 		{
 			set<int32>& history = mLockHistory[prevId];
 			if (history.find(lockId) == history.end())
@@ -32,14 +30,14 @@ void DeadLockProfiler::PushLock(string name)
 	mLockStack.push(lockId);
 }
 
-void DeadLockProfiler::PopLock(string name)
+void DeadLockProfiler::PopLock(const string_view& name)
 {
 	LockGuard	guard(mLock);
 
 	if (mLockStack.empty())
 		CRASH("MULTIPLE UNLOCK");
 
-	int32 lockId = mNameToId[name];
+	int32 lockId = mNameToId[name.data()];
 	if (mLockStack.top() != lockId)
 		CRASH("INVALID UNLOCK");
 	mLockStack.pop();

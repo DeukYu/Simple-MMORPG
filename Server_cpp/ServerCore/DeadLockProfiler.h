@@ -2,8 +2,8 @@
 class DeadLockProfiler
 {
 public:
-	void PushLock(string name);
-	void PopLock(string name);
+	void PushLock(const string_view& name);
+	void PopLock(const string_view& name);
 	void CheckCycle();
 
 private:

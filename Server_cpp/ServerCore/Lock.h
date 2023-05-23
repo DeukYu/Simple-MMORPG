@@ -15,10 +15,10 @@ class Lock
 	};
 
 public:
-	void WriteLock(const string name);
-	void WriteUnlock(const string name);
-	void ReadLock(const string name);
-	void ReadUnlock(const string name);
+	void WriteLock(const string_view& name);
+	void WriteUnlock(const string_view& name);
+	void ReadLock(const string_view& name);
+	void ReadUnlock(const string_view& name);
 
 private:
 	Atomic<uint32> mLockFlag = EMPTY_FLAG;

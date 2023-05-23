@@ -3,7 +3,7 @@
 #include "CoreTLS.cpp"
 #include "DeadLockProfiler.h"
 
-void Lock::WriteLock(const string name)
+void Lock::WriteLock(const string_view& name)
 {
 #if _DEBUG
 	GDeadLockProfiler->PushLock(name);
@@ -36,7 +36,7 @@ void Lock::WriteLock(const string name)
 	}
 }
 
-void Lock::WriteUnlock(const string name)
+void Lock::WriteUnlock(const string_view& name)
 {
 #if _DEBUG
 	GDeadLockProfiler->PopLock(name);
@@ -51,7 +51,7 @@ void Lock::WriteUnlock(const string name)
 		mLockFlag.store(EMPTY_FLAG);
 }
 
-void Lock::ReadLock(const string name)
+void Lock::ReadLock(const string_view& name)
 {
 #if _DEBUG
 	GDeadLockProfiler->PushLock(name);
@@ -81,7 +81,7 @@ void Lock::ReadLock(const string name)
 	}
 }
 
-void Lock::ReadUnlock(const string name)
+void Lock::ReadUnlock(const string_view& name)
 {
 #if _DEBUG
 	GDeadLockProfiler->PopLock(name);
