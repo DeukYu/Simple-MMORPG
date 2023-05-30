@@ -17,6 +17,12 @@
 #include <Windows.h>
 #include <iostream>
 #include <format>
+
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+
 using namespace std;
+using namespace rapidjson;
 
 #include "Lock.h"
