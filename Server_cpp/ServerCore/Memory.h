@@ -1,4 +1,5 @@
 #pragma once
+#include "Allocator.h"
 
 class MemoryPool;
 class Memory
@@ -21,3 +22,18 @@ private:
 	vector<MemoryPool*>	mPools;
 	MemoryPool*			mPoolTable[MAX_ALLOC_SIZE + 1];
 };
+
+template <typename Type, typename... Args>
+Type* xnew(Args&&... args)
+{
+	Type* memory = static_cast<Type*>(xAlloc(sizeof(Type)));
+	new(memory)Type(forward<Args>(args)...);	// placement new
+	return memory;
+}
+
+template <typename Type>
+void xdelete(Type* obj)
+{
+	obj->~Type();
+	XRelease(obj);
+}
