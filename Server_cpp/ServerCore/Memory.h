@@ -24,16 +24,16 @@ private:
 };
 
 template <typename Type, typename... Args>
-Type* xnew(Args&&... args)
+Type* CustomNew(Args&&... args)
 {
-	Type* memory = static_cast<Type*>(xAlloc(sizeof(Type)));
+	Type* memory = static_cast<Type*>(CustomAlloc(sizeof(Type)));
 	new(memory)Type(forward<Args>(args)...);	// placement new
 	return memory;
 }
 
 template <typename Type>
-void xdelete(Type* obj)
+void CustomDelete(Type* obj)
 {
 	obj->~Type();
-	XRelease(obj);
+	CustomRelease(obj);
 }

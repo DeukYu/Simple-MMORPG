@@ -10,11 +10,11 @@
 #define WRITE_LOCK			WRITE_LOCK_IDX(0)
 
 #ifdef _DEBUG
-#define xAlloc(size) BaseAllocator::Alloc(size)
-#define XRelease(ptr) BaseAllocator::Release(ptr)
+#define CustomAlloc(size) StompAllocator::Alloc(size)
+#define CustomRelease(ptr) StompAllocator::Release(ptr)
 #else
-#define xAlloc(size) BaseAllocator::Alloc(size)
-#define XRelease(ptr) BaseAllocator::Release(ptr)
+#define CustomAlloc(size) BaseAllocator::Alloc(size)
+#define CustomRelease(ptr) BaseAllocator::Release(ptr)
 #endif // _DEBUG
 
 

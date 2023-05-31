@@ -26,3 +26,4 @@ using namespace std;
 using namespace rapidjson;
 
 #include "Lock.h"
+#include "Memory.h"

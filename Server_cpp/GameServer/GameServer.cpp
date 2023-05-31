@@ -1,22 +1,53 @@
 ﻿#include "pch.h"
 #include "ThreadManager.h"
 
+class Knight
+{
+public:
+	Knight()
+	{
+		cout << "Knight()" << endl;
+	}
+
+	Knight(int32 hp) : _hp(hp)
+	{
+		cout << "Knight(hp)" << endl;
+	}
+
+	~Knight()
+	{
+		cout << "~Knight()" << endl;
+	}
+
+	int32 _hp = 100;
+	int32 _mp = false;
+};
+
+class Player
+{
+public:
+	Player()
+	{
+		cout << "Player()" << endl;
+	}
+
+	~Player()
+	{
+		cout << "~Player()" << endl;
+	}
+};
+
 int main()
 {
-    const char* json = "{\"project\":\"rapidjson\",\"stars\":10}";
-    Document d;
-    d.Parse(json);
+	SYSTEM_INFO	info;
+	::GetSystemInfo(&info);
 
-    // 2. Modify it by DOM.
-    Value& s = d["stars"];
-    s.SetInt(s.GetInt() + 1);
+	cout << info.dwPageSize << endl;
+	cout << info.dwAllocationGranularity << endl;
 
-    // 3. Stringify the DOM
-    StringBuffer buffer;
-    Writer<StringBuffer> writer(buffer);
-    d.Accept(writer);
+	Knight* knight = (Knight*)CustomNew<Player>();
 
-    // Output {"project":"rapidjson","stars":11}
-    std::cout << buffer.GetString() << std::endl;
+	knight->_hp = 100;
+	CustomDelete(knight);
     return 0;
 }
