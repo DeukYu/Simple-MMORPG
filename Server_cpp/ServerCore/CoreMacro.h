@@ -10,8 +10,8 @@
 #define WRITE_LOCK			WRITE_LOCK_IDX(0)
 
 #ifdef _DEBUG
-#define CustomAlloc(size) StompAllocator::Alloc(size)
-#define CustomRelease(ptr) StompAllocator::Release(ptr)
+#define CustomAlloc(size) PoolAllocator::Alloc(size)
+#define CustomRelease(ptr) PoolAllocator::Release(ptr)
 #else
 #define CustomAlloc(size) BaseAllocator::Alloc(size)
 #define CustomRelease(ptr) BaseAllocator::Release(ptr)

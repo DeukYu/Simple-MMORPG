@@ -1,6 +1,7 @@
 #pragma once
 
-struct MemoryHeader
+DECLSPEC_ALIGN(MEMORY_ALLOCATION_ALIGNMENT)
+struct MemoryHeader : public SLIST_ENTRY
 {
 	MemoryHeader(int32 size) : mAllocSize(size) {}
 
@@ -19,6 +20,7 @@ struct MemoryHeader
 	int32 mAllocSize;
 };
 
+DECLSPEC_ALIGN(MEMORY_ALLOCATION_ALIGNMENT)
 class MemoryPool
 {
 	USE_LOCK;
@@ -31,7 +33,7 @@ public:
 	MemoryHeader* Pop();
 
 private:
-	int32 mAllocSize = 0;
+	SLIST_HEADER	mHeader;
+	int32			mAllocSize = 0;
 	atomic<int32> mAllocCount = 0;
-	queue<MemoryHeader*> mQueue;
 };

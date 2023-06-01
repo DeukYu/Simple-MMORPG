@@ -53,7 +53,7 @@ void* Memory::Allocate(int32 size)
 	MemoryHeader* header = nullptr;
 	const int32 allocSize = size + sizeof(MemoryHeader);
 	if (allocSize > MAX_ALLOC_SIZE)
-		header = reinterpret_cast<MemoryHeader*>(::malloc(allocSize));
+		header = reinterpret_cast<MemoryHeader*>(::_aligned_malloc(allocSize, MEMORY_ALLOCATION_ALIGNMENT));
 	else
 		header = mPoolTable[allocSize]->Pop();
 
@@ -67,7 +67,7 @@ void Memory::Release(void* ptr)
 	ASSERT_CRASH(allocSize > 0);
 
 	if (allocSize > MAX_ALLOC_SIZE)
-		::free(header);
+		::_aligned_free(header);
 	else
 		mPoolTable[allocSize]->Push(header);
 }

@@ -27,3 +27,4 @@ using namespace rapidjson;
 
 #include "Lock.h"
 #include "Memory.h"
+#include "Container.h"

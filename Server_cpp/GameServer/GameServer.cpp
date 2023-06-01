@@ -39,15 +39,21 @@ public:
 
 int main()
 {
-	SYSTEM_INFO	info;
-	::GetSystemInfo(&info);
+	for (int32 i = 0; i < 5; i++)
+	{
+		GThreadManager->Launch([]()
+			{
+				while (true)
+				{
+					Vector<Knight> v(10);
 
-	cout << info.dwPageSize << endl;
-	cout << info.dwAllocationGranularity << endl;
+					Map<int32, Knight> m;
+					m[100] = Knight();
 
-	Knight* knight = (Knight*)CustomNew<Player>();
+					this_thread::sleep_for(10ms);
+				}
+			});
+	}
 
-	knight->_hp = 100;
-	CustomDelete(knight);
-    return 0;
+	GThreadManager->Join();
 }
